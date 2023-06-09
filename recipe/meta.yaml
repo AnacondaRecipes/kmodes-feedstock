@@ -7,22 +7,23 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/kmodes-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: d840ac9f4616a668ebacba24a12ec1def87da24a9fd0a0dc2f7499a9b9a6f45b
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
+    - setuptools
+    - wheel
   run:
+    - python
     - joblib >=0.11
     - numpy >=1.10.4
-    - python >=3.6
     - scikit-learn >=0.22.0
     - scipy >=0.13.3
 
@@ -30,10 +31,10 @@ test:
   imports:
     - kmodes
     - kmodes.util
-  commands:
-    - pip check
   requires:
     - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/nicodv/kmodes
@@ -41,6 +42,8 @@ about:
   license_family: MIT
   license_file: LICENSE
   summary: Python implementations of the k-modes and k-prototypes clustering algorithms for clustering categorical data.
+  description: |
+    Python implementations of the k-modes and k-prototypes clustering algorithms for clustering categorical data.
   doc_url: https://pypi.org/project/kmodes/
   dev_url: https://github.com/nicodv/kmodes
 
